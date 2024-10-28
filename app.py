@@ -4,6 +4,11 @@ import os
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return "Welcome to the Flask app!, pokracuj na /heartbeat"
+
+
 # This variable will store the latest heartbeat timestamp
 latest_heartbeat = None
 

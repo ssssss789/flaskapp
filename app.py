@@ -1,21 +1,14 @@
-from flask import Flask, request, jsonify
-from datetime import datetime
+from flask import Flask
 
 app = Flask(__name__)
-last_heartbeat = None
 
-@app.route('/heartbeat', methods=['POST'])
+@app.route("/", methods=["GET"])
+def home():
+    return "Welcome to the Flask app!"
+
+@app.route("/heartbeat", methods=["GET"])
 def heartbeat():
-    global last_heartbeat
-    last_heartbeat = datetime.now()
-    return jsonify({"status": "Heartbeat received", "timestamp": last_heartbeat.strftime("%Y-%m-%d %H:%M:%S")}), 200
+    return "App is running", 200
 
-@app.route('/heartbeat/check', methods=['GET'])
-def check_heartbeat():
-    if last_heartbeat:
-        return jsonify({"last_heartbeat": last_heartbeat.strftime("%Y-%m-%d %H:%M:%S")}), 200
-    else:
-        return jsonify({"error": "No heartbeat received yet"}), 404
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
